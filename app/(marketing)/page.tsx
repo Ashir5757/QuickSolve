@@ -1,8 +1,10 @@
+import { Button } from '@/components/ui/button'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>Marketing main page  </div>
+    <div>Marketing main page 
+        <Button>Get Started</Button> </div>
   )
 }
 

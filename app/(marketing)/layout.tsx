@@ -7,8 +7,8 @@ export default function MarketingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className=''>
-
+    <div>
+        {children}
     </div> 
   )
 }
