@@ -1,5 +1,5 @@
 import React from 'react'
-import { SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Navbar } from '@/components/custom/nav-bar'
 
 export default function MarketingLayout({
   children,
@@ -7,7 +7,8 @@ export default function MarketingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
+    <div className='min-h-screen w-full px-3'>
+     <Navbar />
         {children}
     </div> 
   )

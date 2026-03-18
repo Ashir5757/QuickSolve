@@ -1,10 +1,9 @@
-import { Button } from '@/components/ui/button'
-import React from 'react'
-
+import { HeroSection }  from "@/components/custom/hero-section"
 const page = () => {
   return (
-    <div>Marketing main page 
-        <Button>Get Started</Button> </div>
+    <div>
+      <HeroSection />
+    </div>
   )
 }
 
