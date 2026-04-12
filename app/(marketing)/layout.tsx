@@ -1,5 +1,7 @@
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header"; 
 import React from 'react'
-import { Navbar } from '@/components/custom/nav-bar'
+
 
 export default function MarketingLayout({
   children,
@@ -7,9 +9,13 @@ export default function MarketingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className='min-h-screen w-full px-3'>
-     <Navbar />
+    <div>
+       <Header />
+     {/* <Navbar /> */}
         {children}
+        <div>
+			<Footer />
+		</div>
     </div> 
   )
 }
