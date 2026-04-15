@@ -13,7 +13,7 @@ export function HeroSection() {
 				<div
 					className={cn(
 						"absolute inset-0 isolate -z-10",
-						"bg-[radial-gradient(20%_80%_at_20%_0%,--theme(--color-foreground/.1),transparent)]"
+						"bg-[radial-gradient(20%_80%_at_20%_0%,--theme(--color-primary/.2),transparent)]"
 					)}
 				/>
 			</div>
@@ -39,7 +39,7 @@ export function HeroSection() {
 						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-100 duration-500 ease-out"
 					)}
 				>
-					Stuck on a Concept? Master it with QuickSolve.
+					Stuck on a Concept? Master it with <span className="font-dancing-script text-primary">QuickSolve</span>.
 				</h1>
 
 				<p

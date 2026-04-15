@@ -26,7 +26,7 @@ const contactInfo = [
 
 export function ContactSection() {
 	return (
-		<div className="relative mx-auto grid h-full w-full max-w-4xl rounded-2xl border md:grid-cols-[1fr_0.70fr]">
+		<div className="relative mx-auto grid h-full w-full max-w-4xl rounded-2xl border-3 md:grid-cols-[1fr_0.70fr]">
 			<div className="col-span-1 flex flex-col space-y-4 p-8 lg:p-10">
 				<h1 className="font-medium text-2xl tracking-wide md:text-3xl">
 					Contact With Us

@@ -10,10 +10,6 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export const navLinks = [
 	{
-		label: "Find Tutors",
-		href: "/#tutors",
-	},
-	{
 		label: "Pricing",
 		href: "/pricing",
 	},
@@ -52,36 +48,36 @@ export function Header() {
 				</a>
 
 				<div className="hidden items-center gap-4 md:flex">
-    <div className="mr-2 flex gap-1">
-        {navLinks.map((link) => (
-            <Button key={link.label} size="sm" variant="ghost" render={<a href={link.href} />} nativeButton={false}>
-                {link.label}
-            </Button>
-        ))}
-    </div>
-    <ModeToggle />
-  
-    <Show when="signed-out">
-        <SignInButton mode="modal" forceRedirectUrl="/dashboard">
-            <Button size="sm" variant="outline">
-                Log In
-            </Button>
-        </SignInButton>
-        
-        <SignUpButton mode="modal" forceRedirectUrl="/onboarding">
-            <Button size="sm">
-                Get Started
-            </Button>
-        </SignUpButton>
-    </Show>
+					<div className="mr-2 flex gap-1">
+						{navLinks.map((link) => (
+							<Button key={link.label} size="sm" variant="ghost" render={<a href={link.href} />} nativeButton={false}>
+								{link.label}
+							</Button>
+						))}
+					</div>
+					<ModeToggle />
 
-    
-    <Show when="signed-in">
-			<Button size="sm" variant="outline">
-				<Link href="/dashboard">Dashboard</Link>
-			</Button>
-    </Show>
-</div>
+					<Show when="signed-out">
+						<SignInButton mode="modal" forceRedirectUrl="/dashboard">
+							<Button size="sm" variant="outline">
+								Log In
+							</Button>
+						</SignInButton>
+
+						<SignUpButton mode="modal" forceRedirectUrl="/onboarding">
+							<Button size="sm">
+								Get Started
+							</Button>
+						</SignUpButton>
+					</Show>
+
+
+					<Show when="signed-in">
+						<Button size="sm" >
+							<Link href="/dashboard">Dashboard</Link>
+						</Button>
+					</Show>
+				</div>
 				<MobileNav />
 			</nav>
 		</header>

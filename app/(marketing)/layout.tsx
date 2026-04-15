@@ -9,7 +9,7 @@ export default function MarketingLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
+    <div className="bg-[radial-gradient(20%_80%_at_20%_0%,--theme(--color-primary/.2),transparent)]">
        <Header />
      {/* <Navbar /> */}
         {children}
