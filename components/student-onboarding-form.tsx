@@ -28,11 +28,11 @@ const formSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters."),
   fbiseReg: z.string().optional(),
   fbiseRoll: z.string().optional(),
-  currentClass: z.string({ required_error: "Please select your current class." }),
-  studyGroup: z.string({ required_error: "Please select a study group." }),
+  currentClass: z.string().min(1, "Please select your current class."),
+  studyGroup: z.string().min(1, "Please select a study group."),
   academicGoals: z.string().optional(),
   studyRoutine: z.enum(["daily", "weekends", "exams"], {
-    required_error: "Please select your study routine.",
+    message: "Please select your study routine.",
   }),
 });
 
