@@ -23,9 +23,11 @@
   },
   "registries": {
     "@magicui": "https://magicui.design/r/{name}",
-    "@efferd": "https://efferd.com/r/{name}.json",
+    "@efferd": "https://efferd.com/r/{style}/{name}.json",
     "@motion-primitives": "https://motion-primitives.com/c/{name}.json",
     "@blocks-so": "https://blocks.so/r/{name}.json",
-    "@aceternity": "https://ui.aceternity.com/registry/{name}.json"
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
+    "@eldoraui": "https://eldoraui.site/r/{name}.json",
+    "@supabase": "https://supabase.com/ui/r/{name}.json"
   }
 }

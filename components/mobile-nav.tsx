@@ -3,7 +3,8 @@ import React from "react";
 import { Portal, PortalBackdrop } from "@/components/ui/portal";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/components/header";
-import { XIcon, MenuIcon } from "lucide-react";
+import { XIcon, MenuIcon, Link } from "lucide-react";
+import { SignInButton, SignUpButton, Show } from "@clerk/nextjs";
 
 export function MobileNav() {
 	const [open, setOpen] = React.useState(false);
@@ -41,10 +42,26 @@ export function MobileNav() {
 							))}
 						</div>
 						<div className="mt-12 flex flex-col gap-2">
-							<Button className="w-full" variant="outline">
-								Sign In
-							</Button>
-							<Button className="w-full">Get Started</Button>
+							<Show when="signed-out">
+								<SignInButton mode="modal" forceRedirectUrl="/dashboard">
+									<Button size="sm" variant="outline">
+										Log In
+									</Button>
+								</SignInButton>
+
+								<SignUpButton mode="modal" forceRedirectUrl="/onboarding">
+									<Button size="sm">
+										Get Started
+									</Button>
+								</SignUpButton>
+							</Show>
+
+
+							<Show when="signed-in">
+								<Button size="sm" >
+									<Link href="/dashboard">Dashboard</Link>
+								</Button>
+							</Show>
 						</div>
 					</div>
 				</Portal>

@@ -1,6 +1,6 @@
 import React from "react";
 import { UserButton } from "@clerk/nextjs";
-import { Zap } from "lucide-react";
+import { AppShell } from "@/components/app-shell";
 
 export default function DashboardRootLayout({
     children,
@@ -8,9 +8,11 @@ export default function DashboardRootLayout({
     children: React.ReactNode;
 }) {
     return (
-            <main>
+        <main>
+            <AppShell>
                 {children}
-            </main>
+            </AppShell>
+        </main>
 
     );
 }

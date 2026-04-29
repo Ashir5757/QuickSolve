@@ -3,52 +3,52 @@ import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 
 export function CobeGlobe({ className }: { className?: string }) {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect(() => {
-        let phi = 0;
-        let width = 0; // Initialize width
+	useEffect(() => {
+		let phi = 0;
 
-        if (!canvasRef.current) {
-            return;
-        }
+		if (!canvasRef.current) {
+			return;
+		}
 
-        // It's safer to get the actual width of the canvas element
-        width = canvasRef.current.offsetWidth;
-
-        const globe = createGlobe(canvasRef.current, {
-            devicePixelRatio: 2,
-            width: width * 2,
-            height: width * 2,
-            phi: 0,
-            theta: 0,
-            dark: 1,
-            diffuse: 1.2,
-            mapSamples: 16000,
-            mapBrightness: 6,
-            baseColor: [0.3, 0.3, 0.3],
-            markerColor: [0.1, 0.8, 1],
-            glowColor: [1, 1, 1],
-            markers: [
-                // Add your markers back here!
+		const globe = createGlobe(canvasRef.current, {
+			devicePixelRatio: 2,
+			width: 600 * 2,
+			height: 600 * 2,
+			phi: 0,
+			theta: 0,
+			dark: 1,
+			diffuse: 1.2,
+			mapSamples: 16_000,
+			mapBrightness: 6,
+			baseColor: [0.3, 0.3, 0.3],
+			markerColor: [0.1, 0.8, 1],
+			glowColor: [1, 1, 1],
+			markers: [
+                // longitude latitude
+                { location: [37.7595, -122.4367], size: 0.03 },
+                { location: [40.7128, -74.006], size: 0.1 },
             ],
-            // Explicitly define 'state' to satisfy strict mode
-            onRender: (state: Record<string, any>) => { 
+            // @ts-expect-error - The cobe library types are missing this property
+            onRender: (state: Record<string, any>) => {
+                // Called on every animation frame.
+                // `state` will be an empty object, return updated params.
                 state.phi = phi;
-                phi += 0.005;
-            }
-        } as any);
+                phi += 0.01;
+            },
+        });
 
-        return () => {
-            globe.destroy();
-        };
-    }, []);
+		return () => {
+			globe.destroy();
+		};
+	}, []);
 
-    return (
-        <canvas
-            className={className}
-            ref={canvasRef}
-            style={{ width: 600, height: 600, maxWidth: "100%", aspectRatio: 1 }}
-        />
-    );
+	return (
+		<canvas
+			className={className}
+			ref={canvasRef}
+			style={{ width: 600, height: 600, maxWidth: "100%", aspectRatio: 1 }}
+		/>
+	);
 }

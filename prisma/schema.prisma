@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum SessionStatus {
+  PENDING   // Student requested
+  ACTIVE    // Teacher accepted/Live now
+  COMPLETED // Finished
+  CANCELLED // Declined or timed out
+}
+
+model User {
+  id            String    @id @default(cuid()) 
+  email         String    @unique
+  name          String?
+  role          Role      @default(STUDENT)
+  imageUrl      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  studentProfile Student?
+  teacherProfile Teacher?
+}
+
+model Student {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  credits     Int       @default(0)
+  grade       String?   
+  
+  meetings    Meeting[] // Renamed from sessions to match your model
+}
+
+model Teacher {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  bio           String?   @db.Text
+  subject       String    
+  hourlyRate    Decimal   @default(0.00)
+  rating        Float     @default(5.0)
+  isAvailable   Boolean   @default(false)
+  
+  meetings      Meeting[] // Renamed from sessions to match your model
+}
+
+model Meeting {
+  id          String        @id @default(cuid())
+  roomId      String        @unique
+  status      SessionStatus @default(PENDING)
+  
+  // Handshake Logic
+  teacherId   String
+  teacher     Teacher       @relation(fields: [teacherId], references: [id])
+  
+  studentId   String
+  student     Student       @relation(fields: [studentId], references: [id])
+
+  createdAt   DateTime      @default(now())
+  startedAt   DateTime?
+  endedAt     DateTime?
+}
