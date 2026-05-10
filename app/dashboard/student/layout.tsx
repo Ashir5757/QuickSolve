@@ -1,5 +1,5 @@
 import React from "react";
-import { UserButton } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 import { AppShell } from "@/components/app-shell";
 
 export default function DashboardRootLayout({
@@ -11,6 +11,7 @@ export default function DashboardRootLayout({
         <main>
             <AppShell>
                 {children}
+                 <Toaster richColors position="top-right" />
             </AppShell>
         </main>
 

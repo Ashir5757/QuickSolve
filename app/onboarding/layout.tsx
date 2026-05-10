@@ -1,17 +1,16 @@
-import { currentUser } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation"
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-export default async function onboardingLayout({
+export default async function OnboardingLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  const user = await currentUser()
-  
-  if (!user) {
-    redirect("/")
-  }
+}: {
+  children: React.ReactNode;
+}) {
+  const { userId } = await auth();
 
+  if (!userId) {
+    redirect("/sign-in");
+  }
   return (
  <div className="bg-[radial-gradient(20%_80%_at_20%_0%,--theme(--color-primary/.2),transparent)]">
     {children}

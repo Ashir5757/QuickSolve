@@ -16,13 +16,13 @@ import { useRouter } from 'next/navigation';
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [role, setRole] = useState<'student' | 'tutor' | null>(null);
+  const [role, setRole] = useState<'student' | 'teacher' | null>(null);
 
   const handleContinue = () => {
     if (role === 'student') {
       router.push('/onboarding/student');
-    } else if (role === 'tutor') {
-      router.push('/onboarding/tutor'); 
+    } else if (role === 'teacher') {
+      router.push('/dashboard/teacher'); 
     }
   };
 
@@ -72,21 +72,21 @@ export default function OnboardingPage() {
 
           {/* Teacher/Tutor Role Card */}
           <div
-            onClick={() => setRole('tutor')}
+            onClick={() => setRole('teacher')}
             className={cn(
               "relative flex flex-col items-center justify-center p-8 border-2 rounded-2xl cursor-pointer transition-all duration-300",
-              role === 'tutor' 
+              role === 'teacher' 
                 ? "border-primary bg-primary/5 ring-1 ring-primary shadow-lg scale-105" 
                 : "border-border hover:border-primary/50 hover:bg-muted/50 hover:-translate-y-1"
             )}
           >
             <div className={cn(
               "p-5 rounded-full mb-5 transition-colors duration-300",
-              role === 'tutor' ? "bg-primary/10" : "bg-muted"
+              role === 'teacher' ? "bg-primary/10" : "bg-muted"
             )}>
               <BookOpenText className={cn(
                 "w-12 h-12", 
-                role === 'tutor' ? "text-primary" : "text-muted-foreground"
+                role === 'teacher' ? "text-primary" : "text-muted-foreground"
               )} />
             </div>
             <h3 className="font-bold text-2xl mb-2 text-foreground">I'm a Teacher</h3>
@@ -98,7 +98,7 @@ export default function OnboardingPage() {
 
         <CardFooter className="flex flex-col mt-6 pt-10 pb-6">
           <Button 
-            className="w-full sm:w-2/3 text-lg h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95" 
+            className="w-full sm:w-2/3 text-lg h-14 shadow-lg transition-all duration-300  active:scale-95" 
             disabled={!role}
             onClick={handleContinue}
           >

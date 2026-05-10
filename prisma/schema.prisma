@@ -3,6 +3,8 @@
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
+// This is your Prisma schema file
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,6 +15,7 @@ datasource db {
 }
 
 enum Role {
+  UNASSIGNED // <-- Added so new signups have a default neutral state
   STUDENT
   TEACHER
   ADMIN
@@ -26,56 +29,72 @@ enum SessionStatus {
 }
 
 model User {
-  id            String    @id @default(cuid()) 
-  email         String    @unique
-  name          String?
-  role          Role      @default(STUDENT)
-  imageUrl      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  String   @id @default(cuid()) 
+  clerkId             String   @unique // <-- CRUCIAL: Links your DB to Clerk
+  email               String   @unique
+  firstName           String?  // <-- Split name into first/last to match Clerk payloads
+  lastName            String?  
+  role                Role     @default(UNASSIGNED) // Starts unassigned
+  imageUrl            String?
+  onboardingCompleted Boolean  @default(false) // <-- Controls your onboarding redirect
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   studentProfile Student?
   teacherProfile Teacher?
 }
 
 model Student {
-  id          String    @id @default(cuid())
-  userId      String    @unique
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  credits     Int       @default(0)
-  grade       String?   
-  
-  meetings    Meeting[] // Renamed from sessions to match your model
+  id       String    @id @default(cuid())
+  userId   String    @unique
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credits  Int       @default(0)
+  grade    String?   
+  meetings Meeting[] 
+
+  problems Problem[]
 }
 
 model Teacher {
-  id            String    @id @default(cuid())
-  userId        String    @unique
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  bio           String?   @db.Text
-  subject       String    
-  hourlyRate    Decimal   @default(0.00)
-  rating        Float     @default(5.0)
-  isAvailable   Boolean   @default(false)
-  
-  meetings      Meeting[] // Renamed from sessions to match your model
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio         String?   @db.Text
+  subject     String    
+  hourlyRate  Decimal   @default(0.00)
+  rating      Float     @default(5.0)
+  isAvailable Boolean   @default(false)
+  meetings    Meeting[] 
 }
 
 model Meeting {
-  id          String        @id @default(cuid())
-  roomId      String        @unique
-  status      SessionStatus @default(PENDING)
+  id        String        @id @default(cuid())
+  roomId    String        @unique
+  status    SessionStatus @default(PENDING)
   
-  // Handshake Logic
-  teacherId   String
-  teacher     Teacher       @relation(fields: [teacherId], references: [id])
+  teacherId String
+  teacher   Teacher       @relation(fields: [teacherId], references: [id])
+  
+  studentId String
+  student   Student       @relation(fields: [studentId], references: [id])
+
+  createdAt DateTime      @default(now())
+  startedAt DateTime?
+  endedAt   DateTime?
+}
+
+model Problem {
+  id          String   @id @default(cuid())
+  subject     String
+  grade       String
+  description String   @db.Text
+  images      String[] // Array of URLs (from UploadThing or Supabase)
+  status      String   @default("OPEN") // OPEN, RESOLVED, or IN_PROGRESS
   
   studentId   String
-  student     Student       @relation(fields: [studentId], references: [id])
-
-  createdAt   DateTime      @default(now())
-  startedAt   DateTime?
-  endedAt     DateTime?
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
+

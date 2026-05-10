@@ -1,3 +1,4 @@
+import { TRPCProvider } from "./api/trpc-provider";
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono, Inter, Dancing_Script } from 'next/font/google'
@@ -6,7 +7,7 @@ import './globals.css'
 import { ThemeProvider } from "@/components/custom/theme-provider"
 import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const dancingScript = Dancing_Script({
   weight: "400",
@@ -39,21 +40,23 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         variables: {
-          colorPrimary: "blue", 
+          colorPrimary: "blue",
           borderRadius: "0.5rem",
         },
       }}
     >
       <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
         <body className={`${geistSans.variable} ${dancingScript.variable} ${geistMono.variable} antialiased`}>
-           <ThemeProvider
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-          {children}
-        </ThemeProvider>
+            <TRPCProvider>
+              {children}
+            </TRPCProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
